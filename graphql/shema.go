@@ -1,7 +1,7 @@
 package graphql
 
 import (
-	"github.com/99designs/gqlgen/graphql/complexity"
+	"github.com/99designs/gqlgen/complexity"
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/handler/lru"
 	"github.com/99designs/gqlgen/graphql/playground"
