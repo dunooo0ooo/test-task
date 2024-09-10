@@ -5,7 +5,7 @@ import (
 	"sync"
 
 	"github.com/google/uuid"
-	"graphql-app/models"
+	"test-task/models"
 )
 
 type InMemoryRepository struct {
