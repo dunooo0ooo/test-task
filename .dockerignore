@@ -1,0 +1,7 @@
+/build
+*.log
+*.lock
+*.env
+vendor/
+Dockerfile
+docker-compose.yml

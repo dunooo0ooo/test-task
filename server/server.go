@@ -9,13 +9,17 @@ import (
 )
 
 func main() {
+	// Создание репозитория
 	repo := repository.NewInMemoryRepository()
 
+	// Сервисы
 	postService := services.NewPostService(repo)
 	commentService := services.NewCommentService(repo)
 
+	// GraphQL-резолверы
 	resolver := graphql.NewResolver(postService, commentService)
 
+	// GraphQL-сервер
 	srv := graphql.NewGraphQLServer(resolver)
 
 	http.Handle("/query", srv)

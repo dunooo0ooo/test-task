@@ -6,11 +6,6 @@ import (
 	"test-task/services"
 )
 
-type Resolver struct {
-	postService    *services.PostService
-	commentService *services.CommentService
-}
-
 func NewResolver(postService *services.PostService, commentService *services.CommentService) *Resolver {
 	return &Resolver{
 		postService:    postService,
