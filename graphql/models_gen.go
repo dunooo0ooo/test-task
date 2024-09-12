@@ -3,9 +3,11 @@
 package graphql
 
 type Comment struct {
-	ID      string     `json:"id"`
-	Content string     `json:"content"`
-	Replies []*Comment `json:"replies"`
+	ID       string     `json:"id"`
+	Content  string     `json:"content"`
+	PostID   string     `json:"postID"`
+	ParentID *string    `json:"parentID,omitempty"`
+	Replies  []*Comment `json:"replies"`
 }
 
 type Mutation struct {

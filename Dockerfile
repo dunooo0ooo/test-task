@@ -1,18 +1,25 @@
-FROM golang:1.23rc1-alpine AS builder
+FROM golang:1.20-alpine AS builder
 
 WORKDIR /app
 
-COPY . .
+COPY go.mod go.sum ./
 
 RUN go mod download
-RUN go build -o main ./server/server.go
+
+COPY . .
+
+WORKDIR /app/server
+
+RUN go build -o /app/server/graphql-server
 
 FROM alpine:latest
 
-WORKDIR /root/
+WORKDIR /app
 
-COPY --from=builder /app/main .
+COPY --from=builder /app/server/graphql-server .
+
+ENV PORT=8080
 
 EXPOSE 8080
 
-CMD ["./main"]
+CMD ["/app/graphql-server"]

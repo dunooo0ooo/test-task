@@ -1,26 +1,26 @@
-# schema.graphqls
-
 type Post {
-    id: ID!
-    title: String!
-    content: String!
-    isLocked: Boolean!
-    comments: [Comment!]!
+  id: ID!
+  title: String!
+  content: String!
+  isLocked: Boolean!
+  comments(limit: Int, page: Int): [Comment!]! # Пагинация для комментариев
 }
 
 type Comment {
-    id: ID!
-    content: String!
-    replies: [Comment!]!
+  id: ID!
+  content: String!
+  postID: ID!
+  parentID: ID
+  replies: [Comment!]!
 }
 
 type Query {
-    posts: [Post!]!
-    post(id: ID!): Post
+  posts(limit: Int, page: Int): [Post!]! # Пагинация для постов
+  post(id: ID!): Post
 }
 
 type Mutation {
-    createPost(title: String!, content: String!): Post!
-    createComment(postId: ID!, content: String!, parentId: ID): Comment!
-    lockPost(postId: ID!): Post!
+  createPost(title: String!, content: String!): Post!
+  createComment(postID: ID!, content: String!, parentID: ID): Comment!
+  lockPost(postID: ID!): Post!
 }

@@ -1,30 +1,27 @@
 package main
 
 import (
+	"github.com/99designs/gqlgen/graphql/handler"
+	"github.com/99designs/gqlgen/graphql/playground"
 	"log"
 	"net/http"
 	"test-task/graphql"
-	"test-task/repository"
-	"test-task/services"
 )
 
 func main() {
-	// Создание репозитория
-	repo := repository.NewInMemoryRepository()
+	posts := make(map[string]*graphql.Post)
+	comments := make(map[string]*graphql.Comment)
 
-	// Сервисы
-	postService := services.NewPostService(repo)
-	commentService := services.NewCommentService(repo)
-
-	// GraphQL-резолверы
-	resolver := graphql.NewResolver(postService, commentService)
-
-	// GraphQL-сервер
-	srv := graphql.NewGraphQLServer(resolver)
+	srv := handler.NewDefaultServer(graphql.NewExecutableSchema(graphql.Config{
+		Resolvers: &graphql.Resolver{
+			PostsMap:    posts,
+			CommentsMap: comments,
+		},
+	}))
 
 	http.Handle("/query", srv)
-	http.Handle("/playground", graphql.NewPlaygroundHandler())
+	http.Handle("/playground", playground.Handler("GraphQL playground", "/query"))
 
-	log.Println("Server started at :8080")
+	log.Println("Server is running on http://localhost:8080/playground")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
